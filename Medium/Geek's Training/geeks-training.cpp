@@ -38,8 +38,38 @@ class Solution {
     }
     
     int maximumPoints(vector<vector<int>>& points, int n) {
-        vector<vector<int>> dp(n + 1, vector<int>(4, -1));
-        return solve(points, n - 1, 3, dp); //3 to make sure you try out all the possibilities at once for the 1st
+        vector<vector<int>> dp(n, vector<int>(4, 0));
+        // return solve(points, n - 1, 3, dp); //3 to make sure you try out all the possibilities at once for the 1st
+    
+        for(int i = 0; i < 4; i++)
+        {
+            for(int j = 0; j < 3; j++)
+            {
+                if(i != j)
+                {
+                    dp[0][i] = max(dp[0][i], points[0][j]);
+                }
+            }
+        }
+        
+        for(int day = 1; day < n; day++)
+        {
+            for(int prev = 0; prev < 4; prev++)
+            {
+                int maxi = 0;
+                for(int task = 0; task < 3; task++)
+                {   
+                    if(task == prev)
+                        continue;
+                        
+                    int sum = points[day][task] + dp[day - 1][task];
+                    maxi = max(maxi, sum);
+                }
+                dp[day][prev] = maxi;
+            }
+        }
+        
+        return dp[n - 1][3];
     }
 };
 
