@@ -5,25 +5,40 @@ using namespace std;
 // } Driver Code Ends
 class Solution{
 	public:
-	    void solve(int i, string s, string temp, vector<string> &res)
-	    {
-	        if(i == s.length())
-	        {
-	            if(temp.length() > 0)
-	                res.push_back(temp);
+	   // void solve(int i, string s, string temp, vector<string> &res)
+	   // {
+	   //     if(i == s.length())
+	   //     {
+	   //         if(temp.length() > 0)
+	   //             res.push_back(temp);
 	               
-	            return;
-	        }
+	   //         return;
+	   //     }
 	        
-            solve(i + 1, s, temp, res);
+    //         solve(i + 1, s, temp, res);
             
-            temp += s[i];
-            solve(i + 1, s, temp, res);
-	    }
+    //         temp += s[i];
+    //         solve(i + 1, s, temp, res);
+	   // }
 		vector<string> AllPossibleStrings(string s){
 		    vector<string> res;
-		    solve(0, s, "", res);
+		  //  solve(0, s, "", res);
 		    
+		  int n = s.length();
+		  
+		  for(int num = 0; num < (1 << n); num++)
+		  {
+		      string temp = "";
+		      for(int i = 0; i < n; i++)
+		      {
+		          if(num & (1 << i))
+		            temp += s[i];
+		           
+		      }
+		      
+		      if(temp.length() > 0)
+		        res.push_back(temp);
+		  }
 		    sort(res.begin(), res.end());
 		    return res;
 		}
