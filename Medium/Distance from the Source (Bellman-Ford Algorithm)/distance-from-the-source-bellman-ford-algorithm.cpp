@@ -13,33 +13,29 @@ class Solution {
     *   V: number of vertices
     */
     vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
-        // Code here
         vector<int> dist(V, 1e8);
         dist[S] = 0;
         for(int i = 0; i < V - 1; i++)
         {
             for(auto it : edges)
             {
-                int src = it[0];
+                int start = it[0];
                 int dest = it[1];
                 int wt = it[2];
                 
-                if(dist[src] != 1e8 && wt + dist[src] < dist[dest])
+                if(dist[start] != 1e8 && dist[start] + wt < dist[dest])
                 {
-                    dist[dest] = wt + dist[src];
+                    dist[dest] = dist[start] + wt;
                 }
             }
         }
-        
-        //last iteration for negative cycle
-        
         for(auto it : edges)
         {
-            int src = it[0];
+            int start = it[0];
             int dest = it[1];
             int wt = it[2];
             
-            if(dist[src] != 1e8 && wt + dist[src] < dist[dest])
+            if(dist[start] != 1e8 && dist[start] + wt < dist[dest])
             {
                 return {-1};
             }
