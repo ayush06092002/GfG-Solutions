@@ -93,8 +93,6 @@ int main(void) {
 // } Driver Code Ends
 
 
-
-
 /* Node structure  used in the program
 
 struct Node{
@@ -114,39 +112,40 @@ struct Node{
 /*  Function which returns the  root of 
     the flattened linked list. */
 
-Node* merge(Node* l1, Node* l2)
-{
-    if(!l1)
-        return l2;
-    if(!l2)
-        return l1;
+Node* merge(Node* l1, Node* l2){
+    Node* dummy = new Node(0);
+    Node* temp = dummy;
     
-    Node* merged = NULL;
-    
-    if(l1->data < l2->data)
-    {
-        merged = l1;
-        merged->bottom = merge(l1->bottom, l2);
-    }
-    else
-    {
-        merged = l2;
-        merged->bottom = merge(l1, l2->bottom);
+    while(l1 && l2){
+        if(l1->data < l2->data){
+            temp->bottom = l1;
+            temp = l1;
+            l1 = l1->bottom;
+        }
+        else{
+            temp->bottom = l2;
+            temp = l2;
+            l2 = l2->bottom;
+        }
+        temp->next = NULL;
     }
     
-    return merged;
-}
+    if(l1){
+        temp->bottom = l1;
+    }
+    if(l2){
+        temp->bottom = l2;
+    }
+    
+    return dummy->bottom;
+}    
 
-Node *flatten(Node *head)
+Node *flatten(Node *root)
 {
-   // Your code here
-   if(!head || !head->next)
-    return head;
-
-    head->next = flatten(head->next);
-    
-    head = merge(head, head->next);
-    
-    return head;
+   if(!root || !root->next){
+       return root;
+   }
+   Node* mergedHead = flatten(root->next);
+   return merge(root, mergedHead);
 }
 
