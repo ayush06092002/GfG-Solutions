@@ -5,29 +5,29 @@ using namespace std;
 
 // } Driver Code Ends
 //User function template for C++
-class Solution {
+class Solution{
 public:
-    long long maxProduct(vector<int> arr, int n) {
-        // code here
-        long long minVal = arr[0];
-        long long maxVal = arr[0];
 
-        long long ans = arr[0];
-
-        for (int i = 1; i < n; i++) {
-            if (arr[i] < 0)
-                swap(minVal, maxVal);
-
-            maxVal = max(static_cast<long long>(arr[i]), arr[i] * maxVal);
-            minVal = min(static_cast<long long>(arr[i]), arr[i] * minVal);
-
-            ans = max(maxVal, ans);
-        }
-
-        return ans;
-    }
+	// Function to find maximum product subarray
+	long long maxProduct(vector<int> arr, int n) {
+	    long long maxi = INT_MIN;
+	    long long prefix = 1, suffix = 1;
+	    for(int i = 0; i < n; i++){
+	        if(prefix == 0){
+	            prefix = 1;
+	        }
+	        if(suffix == 0){
+	            suffix = 1;
+	        }
+	        
+	        prefix *= arr[i];
+	        suffix *= arr[n - i - 1];
+	        maxi = max(maxi, max(prefix, suffix));
+	    }
+	    
+	    return maxi;
+	}
 };
-
 
 //{ Driver Code Starts.
 
