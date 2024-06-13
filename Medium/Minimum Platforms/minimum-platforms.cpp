@@ -15,25 +15,25 @@ class Solution{
     	sort(arr, arr + n);
     	sort(dep, dep + n);
     	
-    	int arIdx = 1;
-    	int depIdx = 0;
-    	int temp = 1, plat = 1;
-    	while(arIdx < n)
-    	{
-    	    if(arr[arIdx] <= dep[depIdx])
-    	    {
+    	int lastDep = 0;
+    	int lastArr = 1;
+    	int numPlat = 1;
+    	int temp = 1;
+    	int i = 1;
+    	
+    	while(lastArr < n){
+    	    if(dep[lastDep] >= arr[lastArr]){
     	        temp++;
-    	        plat = max(plat, temp);
-    	        arIdx++;
+    	        numPlat = max(numPlat, temp);
+    	        lastArr++;
     	    }
-    	    else
-    	    {
+    	    else{
     	        temp--;
-    	        depIdx++;
+    	        lastDep++;
     	    }
     	}
     	
-    	return plat;
+    	return numPlat;
     }
 };
 
