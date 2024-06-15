@@ -30,12 +30,35 @@ class Solution {
         return false;
     }
     
+    bool checkDfs(int i, int V, vector<int> adj[], vector<bool> &vis, int parent){
+        vis[i] = true;
+        
+        for(auto it : adj[i]){
+            if(!vis[it]){
+                if(checkDfs(it, V, adj, vis, i))
+                    return true;
+            }
+            
+            else if(it != parent){
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
     // Function to detect cycle in an undirected graph.
     bool isCycle(int V, vector<int> adj[]) {
         vector<bool> vis(V, false);
         
+        // for(int i = 0; i < V; i++){
+        //     if(!vis[i] && checkBfs(i, V, adj, vis)){
+        //         return true;
+        //     }
+        // }
+        
         for(int i = 0; i < V; i++){
-            if(!vis[i] && checkBfs(i, V, adj, vis)){
+            if(!vis[i] && checkDfs(i, V, adj, vis, -1)){
                 return true;
             }
         }
